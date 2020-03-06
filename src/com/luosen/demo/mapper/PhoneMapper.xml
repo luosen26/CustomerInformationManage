@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luosen.demo.dao.PhoneDao">
+	<select id="find" resultType="Phone">
+		select *from phone where u_id=#{u_id}
+		<if test="p_name==null and p_id!=0">
+			and p_id=#{p_id}
+		</if>
+		<if test="p_id==0 and p_name!=null">
+			and p_name like concat("%",#{p_name},"%")
+		</if>
+	</select>
+	<select id="findByName" resultType="Phone">
+		select *from phone where u_id=#{u_id} and p_name=#{p_name}
+	</select>
+	<insert id="create">
+		insert into phone values (null,#{p_name},#{p_number},#{p_sex},#{p_email},
+		#{p_addr},#{p_sign},#{u_id})
+	</insert>
+	<update id="modify">
+		update phone set p_name=#{p_name},p_number=#{p_number},p_sex=#{p_sex},
+		p_email=#{p_email},p_addr=#{p_addr},p_sign=#{p_sign},u_id=#{u_id} where 
+		p_id=#{p_id}
+	</update>
+	<delete id="remove">
+		delete from phone where p_id=#{p_id}
+	</delete>
+</mapper>
